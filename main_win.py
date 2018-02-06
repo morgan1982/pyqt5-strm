@@ -3,9 +3,21 @@ import os.path as path
 import clipboard
 import sqlite3
 
-from PyQt5.QtWidgets import QApplication, QWidget, QToolBar, QAction, qApp, QMainWindow
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QToolBar, QAction, qApp, QMainWindow, QDialog
+from PyQt5.QtGui import QIcon, QPainter
+from PyQt5.QtCore import Qt
+
 from test import Ui_MainWindow
+from dialog import Ui_Dialog as Form
+
+class Trans_Win(QMainWindow):
+
+    def paintEvent(self, event=None):
+        painter = QPainter(self)
+        painter.setOpacity(0.7)
+        painter.setBrush(Qt.white)
+        painter.setPen(QPen(Qt.white))
+        painter.drawRect(self.rect())
 
 
 class Main(QMainWindow):
@@ -46,6 +58,21 @@ class Main(QMainWindow):
 
     def send_test(self):
         print("action sended")
+        dialog = QDialog()
+        # dialog = Trans_Win()
+        dialog.ui = Trans_Win()
+        # dialog.setWindowFlags(Qt.FramelessWindowHint)
+        # dialog.setAttribute(Qt.WA_NoSystemBackground, True)
+        # dialog.setAttribute(Qt.WA_TranslucentBackground, True)
+        # dialog.setWindowFlags(Qt.FramelessWindowHint)
+        # dialog.ui = Form()
+        # dialog.ui.setupUi(dialog)
+        # dialog.setWindowOpacity(0.4)
+
+        dialog.exec_()
+        
+        dialog.show()
+
 
     def clip_paste(self): #  pastes from the clipboard
         text = clipboard.paste()
